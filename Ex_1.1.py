@@ -2,6 +2,8 @@ import os
 import re
 
 
+# part A of the exercise
+# getting all names in a sample string
 def names():
     simple_string = """Amy is 5 years old, and her sister Mary is 2 years old. 
     Ruth and Peter, their parents, have 3 kids."""
@@ -10,6 +12,8 @@ def names():
     return re.findall("[A-Z]{1}[a-z]*", simple_string)
 
 
+# part B of the exercise
+# getting name of students who got B as theri grade
 def grades():
     projectPath = os.path.abspath(os.path.dirname(__file__))
     path = projectPath + "/grades.txt"
@@ -22,6 +26,8 @@ def grades():
     return result
 
 
+# part C of the exercise
+# retrieving host, username, time and request from a file containing login data information
 def logs():
     projectPath = os.path.abspath(os.path.dirname(__file__))
     path = projectPath + "/logdata.txt"
@@ -42,6 +48,9 @@ def logs():
         result.append(item.groupdict())
     return result
 
+
+print(names())
+for item in grades():
+    print(item)
 for item in logs():
     print(item)
-print(len(logs()))
