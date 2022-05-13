@@ -24,7 +24,7 @@ def proportion_of_education():
     return result
 
 
-# print(proportion_of_education())
+print(proportion_of_education())
 
 # function for question 2
 def average_influenza_doses():
@@ -36,7 +36,7 @@ def average_influenza_doses():
     return result
 
 
-# print(average_influenza_doses())
+print(average_influenza_doses())
 
 # function fro question 3
 def chickenpox_by_sex():
