@@ -115,12 +115,36 @@ def answer_nine():
 
 def answer_ten():
     tempDf = answer_one()
-    print(tempDf['% Renewable'])
     med = tempDf['% Renewable'].median()
     tempDf['newcol'] = tempDf['% Renewable'].apply(lambda x: 1 if x >= med else 0)
     tempRank = tempDf['Rank']
-    print(tempRank)
     for index in tempRank.index:
         tempRank[index] = tempDf['newcol'].loc[index]
     return tempRank
-print(answer_ten())
+# print(answer_ten())
+
+def answer_eleven():
+    ContinentDict = {'China': 'Asia',
+                     'United States': 'North America',
+                     'Japan': 'Asia',
+                     'United Kingdom': 'Europe',
+                     'Russian Federation': 'Europe',
+                     'Canada': 'North America',
+                     'Germany': 'Europe',
+                     'India': 'Asia',
+                     'France': 'Europe',
+                     'South Korea': 'Asia',
+                     'Italy': 'Europe',
+                     'Spain': 'Europe',
+                     'Iran': 'Asia',
+                     'Australia': 'Australia',
+                     'Brazil': 'South America'}
+    Top15 = answer_one()
+    df = pd.DataFrame(list(ContinentDict.items()), columns=['Country', 'Continent']).set_index('Country')
+    print(type(df))
+    df = df.merge((Top15['Energy Supply'] / Top15['Energy Supply per Capita']).rename('popEst'), left_index=True, right_index=True)
+    res = df.groupby(['Continent']).agg(size=('popEst', 'size'), sum=('popEst', 'sum'), mean= ('popEst', 'mean'),  std= ('popEst', 'std'))
+    return res
+
+
+print(answer_eleven())
