@@ -141,10 +141,62 @@ def answer_eleven():
                      'Brazil': 'South America'}
     Top15 = answer_one()
     df = pd.DataFrame(list(ContinentDict.items()), columns=['Country', 'Continent']).set_index('Country')
-    print(type(df))
     df = df.merge((Top15['Energy Supply'] / Top15['Energy Supply per Capita']).rename('popEst'), left_index=True, right_index=True)
     res = df.groupby(['Continent']).agg(size=('popEst', 'size'), sum=('popEst', 'sum'), mean= ('popEst', 'mean'),  std= ('popEst', 'std'))
     return res
 
 
-print(answer_eleven())
+# print(answer_eleven())
+
+def answer_twelve():
+    Top15 = answer_one()
+    Top15['Country'] = Top15.index
+    ContinentDict = {'China': 'Asia',
+                     'United States': 'North America',
+                     'Japan': 'Asia',
+                     'United Kingdom': 'Europe',
+                     'Russian Federation': 'Europe',
+                     'Canada': 'North America',
+                     'Germany': 'Europe',
+                     'India': 'Asia',
+                     'France': 'Europe',
+                     'South Korea': 'Asia',
+                     'Italy': 'Europe',
+                     'Spain': 'Europe',
+                     'Iran': 'Asia',
+                     'Australia': 'Australia',
+                     'Brazil': 'South America'}
+    Top15['Continent'] = Top15['Country'].map(ContinentDict)
+    Top15['% Renewable'] = pd.cut(Top15['% Renewable'], 5)
+    res = Top15.groupby(['Continent', '% Renewable']).size()
+    res = res[res > 0]
+    return res
+
+print(answer_twelve())
+
+def answer_thirteen():
+    Top15 = answer_one()
+    popEst = Top15['Energy Supply'] / Top15['Energy Supply per Capita']
+    for i in range (0, len(popEst)):
+        popEst.iloc[i] = f"{popEst.iloc[i]:,}"
+
+    return popEst
+# print(answer_thirteen())
+
+def plot_optional():
+    import matplotlib as plt
+    Top15 = answer_one()
+    ax = Top15.plot(x='Rank', y='% Renewable', kind='scatter',
+                    c=['#e41a1c','#377eb8','#e41a1c','#4daf4a','#4daf4a','#377eb8','#4daf4a','#e41a1c',
+                       '#4daf4a','#e41a1c','#4daf4a','#4daf4a','#e41a1c','#dede00','#ff7f00'],
+                    xticks=range(1,16), s=6*Top15['2014']/10**10, alpha=.75, figsize=[16,6]);
+
+    for i, txt in enumerate(Top15.index):
+        ax.annotate(txt, [Top15['Rank'][i], Top15['% Renewable'][i]], ha='center')
+
+    print("This is an example of a visualization that can be created to help understand the data. \
+This is a bubble chart showing % Renewable vs. Rank. The size of the bubble corresponds to the countries' \
+2014 GDP, and the color corresponds to the continent.")
+
+
+plot_optional()
