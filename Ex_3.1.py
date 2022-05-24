@@ -8,8 +8,6 @@ import warnings
 warnings.filterwarnings('ignore')
 
 pd.set_option('display.max_columns', None)
-
-
 # pd.set_option('display.max_rows', None)
 
 
@@ -172,7 +170,7 @@ def answer_twelve():
     res = res[res > 0]
     return res
 
-print(answer_twelve())
+# print(answer_twelve())
 
 def answer_thirteen():
     Top15 = answer_one()
@@ -181,22 +179,4 @@ def answer_thirteen():
         popEst.iloc[i] = f"{popEst.iloc[i]:,}"
 
     return popEst
-# print(answer_thirteen())
-
-def plot_optional():
-    import matplotlib as plt
-    Top15 = answer_one()
-    ax = Top15.plot(x='Rank', y='% Renewable', kind='scatter',
-                    c=['#e41a1c','#377eb8','#e41a1c','#4daf4a','#4daf4a','#377eb8','#4daf4a','#e41a1c',
-                       '#4daf4a','#e41a1c','#4daf4a','#4daf4a','#e41a1c','#dede00','#ff7f00'],
-                    xticks=range(1,16), s=6*Top15['2014']/10**10, alpha=.75, figsize=[16,6]);
-
-    for i, txt in enumerate(Top15.index):
-        ax.annotate(txt, [Top15['Rank'][i], Top15['% Renewable'][i]], ha='center')
-
-    print("This is an example of a visualization that can be created to help understand the data. \
-This is a bubble chart showing % Renewable vs. Rank. The size of the bubble corresponds to the countries' \
-2014 GDP, and the color corresponds to the continent.")
-
-
-plot_optional()
+print(answer_thirteen())
